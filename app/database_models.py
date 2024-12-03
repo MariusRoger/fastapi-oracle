@@ -6,10 +6,11 @@ class Base(DeclarativeBase):
     pass
 
 
-class TestTable(Base):
-    __tablename__ = "test table"
+class TodosTable(Base):
+    __tablename__ = "todos table"
 
     id_identity = Identity(start=1, increment=1)
     id = Column(Integer, id_identity, primary_key=True)
 
-    test_column1 = Column(String(50), unique=True, nullable=False)
+    title = Column(String(50), unique=True, nullable=False)
+    description = Column(String(50), nullable=False)
