@@ -37,27 +37,6 @@ async def create_todo(
     return {"response": "TODO added."}
 
 
-@router.delete("/{id}")
-async def delete_todo(db: Annotated[Session, Depends(database.get_db)], id: int):
-
-    todo_from_id_query = db.query(database_models.TodosTable).filter(
-        database_models.TodosTable.id == id
-    )
-
-    todo_from_id = todo_from_id_query.first()
-
-    if todo_from_id is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"TODO with id {id} does not exist.",
-        )
-
-    todo_from_id_query.delete()
-    db.commit()
-
-    return {"response": "TODO deleted."}
-
-
 @router.put("/{id}")
 async def update_todo(
     db: Annotated[Session, Depends(database.get_db)],
@@ -81,3 +60,24 @@ async def update_todo(
     db.commit()
 
     return todo_from_id_query.first()
+
+
+@router.delete("/{id}")
+async def delete_todo(db: Annotated[Session, Depends(database.get_db)], id: int):
+
+    todo_from_id_query = db.query(database_models.TodosTable).filter(
+        database_models.TodosTable.id == id
+    )
+
+    todo_from_id = todo_from_id_query.first()
+
+    if todo_from_id is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"TODO with id {id} does not exist.",
+        )
+
+    todo_from_id_query.delete()
+    db.commit()
+
+    return {"response": "TODO deleted."}

@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from app import database, database_models, pydantic_models
+from app import database, database_models, pydantic_models, utils
 
 router = APIRouter()
 
@@ -22,7 +22,7 @@ async def create_user(
     db: Annotated[Session, Depends(database.get_db)], user: pydantic_models.UserToCreate
 ):
     new_user = database_models.UsersTable()
-    new_user.hashed_password = "1"  # TODO
+    new_user.hashed_password = utils.hash(user.password)  # TODO hash function
     new_user.username = user.username
 
     try:
