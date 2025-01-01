@@ -22,7 +22,7 @@ async def create_user(
     db: Annotated[Session, Depends(database.get_db)], user: pydantic_models.UserToCreate
 ):
     new_user = database_models.UsersTable()
-    new_user.hashed_password = utils.hash(user.password)  # TODO hash function
+    new_user.hashed_password = utils.hash(user.password)
     new_user.username = user.username
 
     try:
