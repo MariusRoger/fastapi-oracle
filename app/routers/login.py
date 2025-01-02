@@ -16,8 +16,8 @@ async def login(
     user_credentials: Annotated[OAuth2PasswordRequestForm, Depends()],
 ):
     user = (
-        db.query(database_models.UsersTable)
-        .filter(database_models.UsersTable.username == user_credentials.username)
+        db.query(database_models.Users)
+        .filter(database_models.Users.username == user_credentials.username)
         .first()
     )
 

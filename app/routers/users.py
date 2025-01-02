@@ -10,9 +10,7 @@ router = APIRouter()
 
 @router.get("")
 async def get_users(db: Annotated[Session, Depends(database.get_db)]):
-    users_retrieved: list[database_models.UsersTable] = db.query(
-        database_models.UsersTable
-    ).all()
+    users_retrieved: list[database_models.Users] = db.query(database_models.Users).all()
 
     return users_retrieved
 
@@ -21,7 +19,7 @@ async def get_users(db: Annotated[Session, Depends(database.get_db)]):
 async def create_user(
     db: Annotated[Session, Depends(database.get_db)], user: pydantic_models.UserToCreate
 ):
-    new_user = database_models.UsersTable()
+    new_user = database_models.Users()
     new_user.hashed_password = utils.hash(user.password)
     new_user.username = user.username
 

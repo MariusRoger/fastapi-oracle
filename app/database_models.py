@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Identity, Integer, String
+from sqlalchemy import Column, ForeignKey, Identity, Integer, String
 from sqlalchemy.orm import DeclarativeBase
 
 
@@ -6,8 +6,8 @@ class Base(DeclarativeBase):
     pass
 
 
-class TodosTable(Base):
-    __tablename__ = "todos table"
+class Todos(Base):
+    __tablename__ = "todos"
 
     id_identity = Identity(start=1, increment=1)
     id = Column(Integer, id_identity, primary_key=True)
@@ -15,9 +15,15 @@ class TodosTable(Base):
     title = Column(String(50), unique=True, nullable=False)
     description = Column(String(50), nullable=False)
 
+    owner_username = Column(
+        String(50),
+        ForeignKey("users.username", ondelete="CASCADE"),
+        nullable=False,
+    )
 
-class UsersTable(Base):
-    __tablename__ = "users table"
+
+class Users(Base):
+    __tablename__ = "users"
 
     id_identity = Identity(start=1, increment=1)
     id = Column(Integer, id_identity, primary_key=True)
